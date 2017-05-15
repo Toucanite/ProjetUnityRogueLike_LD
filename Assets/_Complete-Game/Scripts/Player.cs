@@ -161,29 +161,44 @@ namespace Completed
 			GameManager.instance.playersTurn = false;
 		}
 		
-		
 		//OnCantMove overrides the abstract function OnCantMove in MovingObject.
 		//It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
 		protected override void OnCantMove <T> (T component)
 		{
-			//Set hitWall to equal the component passed in as a parameter.
-			Wall hitWall = component as Wall;
-			
-			//Call the DamageWall function of the Wall we are hitting.
-            if (hitWall.destructible)
+            if (component is Wall)
             {
-                hitWall.DamageWall(wallDamage);
+                //Set hitWall to equal the component passed in as a parameter.
+                Wall hitWall = component as Wall;
 
-                animator.SetTrigger("playerChop");
+                //Call the DamageWall function of the Wall we are hitting.
+                if (hitWall.destructible)
+                {
+                    hitWall.DamageWall(wallDamage);
+
+                    animator.SetTrigger("playerChop");
+                }
+                else
+                {
+                    food++;
+                    foodText.text = "Food: " + food;
+                }
             }
             else
             {
-                food++;
-                foodText.text = "Food: " + food;
+                Enemy e = component as Enemy;
+                e.TakeDamage();
+
+                animator.SetTrigger("playerChop");
+
+                if (e.hp <= 0)
+                {
+                    DestroyImmediate(e);
+                }
             }
 			
+			
+			
 		}
-		
 		
 		//OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
 		private void OnTriggerEnter2D (Collider2D other)
@@ -226,8 +241,7 @@ namespace Completed
 				other.gameObject.SetActive (false);
 			}
 		}
-		
-		
+
 		//Restart reloads the scene when called.
 		private void Restart ()
 		{
@@ -235,7 +249,6 @@ namespace Completed
             //and not load all the scene object in the current scene.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
 		}
-		
 		
 		//LoseFood is called when an enemy attacks the player.
 		//It takes a parameter loss which specifies how many points to lose.
@@ -253,7 +266,6 @@ namespace Completed
 			//Check to see if game has ended.
 			CheckIfGameOver ();
 		}
-		
 		
 		//CheckIfGameOver checks if the player is out of food points and if so, ends the game.
 		private void CheckIfGameOver ()

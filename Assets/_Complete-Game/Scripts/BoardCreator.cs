@@ -52,7 +52,8 @@ public class BoardCreator : MonoBehaviour
     public void Restart()
     {
 
-        GameObject.Destroy(boardHolder);
+        //GameObject.Destroy(boardHolder);
+        DestroyImmediate(boardHolder);
         boardHolder = new GameObject("BoardHolder");
 
         numRooms = new IntRange(15, 20);
@@ -62,6 +63,8 @@ public class BoardCreator : MonoBehaviour
 
         tiles = new TileType[columns, rows];
         spawn++;
+        
+
         SetupTilesArray();
 
         CreateRoomsAndCorridors();
@@ -140,7 +143,6 @@ public class BoardCreator : MonoBehaviour
 
     void SetTilesValuesForRooms()
     {
-        bool existExit = false;
         // Go through all the rooms...
         for (int i = 0; i < rooms.Length; i++)
         {
@@ -156,21 +158,19 @@ public class BoardCreator : MonoBehaviour
                 {
                     int yCoord = currentRoom.yPos + k;
 
-                    tiles[xCoord, yCoord] = (TileType)currentRoom.GetContent(j,k);
-
-                    if (!existExit && (i != 1) && (((j == currentRoom.roomWidth - 1) && (k == currentRoom.roomHeight - 1)) && (Random.Range(0,4)==Random.Range(0,4))))
-                    {
-                        existExit = true;
-                        tiles[xCoord, yCoord] = TileType.Exit;
-                    }
-                    else if (!existExit && (i == rooms.Length - 1))
-                    {
-                        existExit = true;
-                        tiles[xCoord, yCoord] = TileType.Exit;
-                    }
+                    tiles[xCoord, yCoord] = (TileType)currentRoom.GetContent(j, k);
                 }
             }
         }
+
+        SetupExit();
+    }
+
+    void SetupExit()
+    {
+        int lastRoom = rooms.Length - 1;
+        tiles[  (rooms[lastRoom].roomWidth + rooms[lastRoom].xPos),
+                (rooms[lastRoom].roomHeight +rooms[lastRoom].yPos)] = TileType.Exit;
     }
 
     void SetTilesValuesForCorridors()

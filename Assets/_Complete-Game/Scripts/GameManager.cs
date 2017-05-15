@@ -145,7 +145,6 @@ namespace Completed
 		//Coroutine to move enemies in sequence.
 		IEnumerator MoveEnemies()
 		{
-               
 			//While enemiesMoving is true player is unable to move.
 			enemiesMoving = true;
 			

@@ -45,7 +45,7 @@ public class Room
         {
             for (int y = 0; y < roomHeight; y++)
             {
-                if ((i!=0)&&(y!=0)&&(i!=(roomWidth-1))&&(y!=(roomHeight-1)))
+                if ((i != 0) && (y != 0) && (i != (roomWidth - 1)) && (y != (roomHeight - 1)) && (Random.Range(0, 2) == 1))
                 {
                     switch (pattern)
                     {
