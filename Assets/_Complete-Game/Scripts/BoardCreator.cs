@@ -49,7 +49,7 @@ public class BoardCreator : MonoBehaviour
         InstantiateOuterWalls();
     }
 
-    public void Restart()
+    public void Restart(IntRange numRooms)
     {
 
         //GameObject.Destroy(boardHolder);
@@ -169,8 +169,8 @@ public class BoardCreator : MonoBehaviour
     void SetupExit()
     {
         int lastRoom = rooms.Length - 1;
-        tiles[  (rooms[lastRoom].roomWidth + rooms[lastRoom].xPos),
-                (rooms[lastRoom].roomHeight +rooms[lastRoom].yPos)] = TileType.Exit;
+        tiles[  ((rooms[lastRoom].roomWidth-1) + rooms[lastRoom].xPos),
+                ((rooms[lastRoom].roomHeight-1) +rooms[lastRoom].yPos)] = TileType.Exit;
     }
 
     void SetTilesValuesForCorridors()

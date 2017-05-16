@@ -93,7 +93,9 @@ namespace Completed
 			//Clear any Enemy objects in our List to prepare for next level.
 			enemies.Clear();
 
-            bc.Restart();
+            int minRoom = 4+(int)Mathf.Log10(level);
+            int maxRoom = minRoom+2;
+            bc.Restart(new IntRange(minRoom, maxRoom));
             //BoardCreator bc = new BoardCreator();
 		}
 		
@@ -124,8 +126,13 @@ namespace Completed
 		//Call this to add the passed in Enemy to the List of Enemy objects.
 		public void AddEnemyToList(Enemy script)
 		{
+            int enemyCount = 2 * (int)Mathf.Log(level, 2f);
+
 			//Add Enemy to List enemies.
-			enemies.Add(script);
+            if (enemies.Count < enemyCount)
+            {
+                enemies.Add(script);   
+            }
 		}
 		
 		
