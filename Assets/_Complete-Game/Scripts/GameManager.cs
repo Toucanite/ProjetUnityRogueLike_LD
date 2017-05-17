@@ -93,7 +93,8 @@ namespace Completed
 			//Clear any Enemy objects in our List to prepare for next level.
 			enemies.Clear();
 
-            int minRoom = 4+(int)Mathf.Log10(level);
+
+            int minRoom = 4 + (int)Mathf.Sqrt(Mathf.Exp(Mathf.Log10(level)))*3;
             int maxRoom = minRoom+2;
             bc.Restart(new IntRange(minRoom, maxRoom));
             //BoardCreator bc = new BoardCreator();
